@@ -1,0 +1,31 @@
+version: '3'
+services:
+  mongo1:
+    image: mongo
+    container_name: mongo1
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo-net
+    command: ["--replSet", "my-rs"]
+
+  mongo2:
+    image: mongo
+    container_name: mongo2
+    ports:
+      - "27018:27017"
+    networks:
+      - mongo-net
+    command: ["--replSet", "my-rs"]
+
+  mongo3:
+    image: mongo
+    container_name: mongo3
+    ports:
+      - "27019:27017"
+    networks:
+      - mongo-net
+    command: ["--replSet", "my-rs"]
+
+networks:
+  mongo-net:
