@@ -8,7 +8,7 @@ import lombok.Setter;
 public class CommentDTO {
 	private String userCode;
 	private String comment;
-	private String code;
+	private String commentCode;
 
 	private String postCode;
 }
