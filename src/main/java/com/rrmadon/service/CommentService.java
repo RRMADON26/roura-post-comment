@@ -2,18 +2,21 @@ package com.rrmadon.service;
 
 import com.rrmadon.dto.CommentDTO;
 import com.rrmadon.entity.Comment;
+import com.rrmadon.integration.users.service.UserUtil;
+import com.rrmadon.integration.users.service.rest.UserService;
 import com.rrmadon.util.CodeUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.jbosslog.JBossLog;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.util.stream.Collectors;
 
 @ApplicationScoped
 @JBossLog
-public class CommentService {
+public class CommentService extends UserUtil {
 
 	@Inject
 	PostService postService;
@@ -30,6 +33,7 @@ public class CommentService {
 						comment.setCode(CodeUtil.generate());
 						comment.setText(commentDTO.getComment());
 						comment.setUserCode(comment.getUserCode());
+						comment.setCreatedBy(getUser().getCode());
 
 						cR.getComments().add(comment);
 
@@ -41,6 +45,7 @@ public class CommentService {
 					comment.setCode(CodeUtil.generate());
 					comment.setText(commentDTO.getComment());
 					comment.setUserCode(comment.getUserCode());
+					comment.setCreatedBy(getUser().getCode());
 
 					post.getComments().add(comment);
 
