@@ -3,6 +3,7 @@ package com.rrmadon.resource;
 
 import com.rrmadon.dto.CommentDTO;
 import com.rrmadon.service.CommentService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
@@ -16,6 +17,7 @@ public class CommentResource {
 	CommentService commentService;
 
 	@POST
+	@RolesAllowed("CUSTOMER")
 	public void addComment(CommentDTO commentDTO) {
 		commentService.addComment(commentDTO);
 	}

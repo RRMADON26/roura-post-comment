@@ -6,6 +6,7 @@ import com.rrmadon.util.CodeUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import lombok.extern.jbosslog.JBossLog;
 
 import java.util.stream.Collectors;
@@ -20,12 +21,12 @@ public class CommentService {
 	@Transactional
 	public void addComment(CommentDTO commentDTO) {
 		if (commentDTO.getPostCode() != null) {
-			postService.findByCode(commentDTO.getPostCode()).ifPresent(post -> {
+			postService.findByCode(commentDTO.getPostCode()).ifPresentOrElse(post -> {
 
 				Comment comment = new Comment();
 				if (commentDTO.getCommentCode() != null) {
 
-					post.getComments().stream().filter(c -> c.getCode().equals(commentDTO.getCommentCode())).map(cR -> {
+					post.getComments().stream().filter(c -> c.getCode().equals(commentDTO.getCommentCode())).peek(cR -> {
 						comment.setCode(CodeUtil.generate());
 						comment.setText(commentDTO.getComment());
 						comment.setUserCode(comment.getUserCode());
@@ -34,9 +35,7 @@ public class CommentService {
 
 						post.update();
 
-						return cR;
 					}).collect(Collectors.toUnmodifiableSet());
-
 
 				} else {
 					comment.setCode(CodeUtil.generate());
@@ -47,9 +46,10 @@ public class CommentService {
 
 					post.update();
 				}
+			}, () -> {
+				throw new NotFoundException();
 			});
 		}
 	}
-
 
 }
