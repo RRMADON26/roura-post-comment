@@ -3,6 +3,7 @@ package com.rrmadon.resource;
 import com.rrmadon.dto.PostDTO;
 import com.rrmadon.entity.Post;
 import com.rrmadon.service.PostService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -19,6 +20,7 @@ public class PostResource {
 	PostService postService;
 
 	@POST
+	@RolesAllowed("CUSTOMER")
 	public PostDTO createPost(PostDTO postDTO) {
 		return postService.createPost(postDTO);
 	}

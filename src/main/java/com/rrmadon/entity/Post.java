@@ -17,4 +17,8 @@ public class Post extends BaseEntity {
 
 	private List<Comment> comments = new ArrayList<>();
 
+	private int upVote;
+
+	private int downVote;
+
 }
