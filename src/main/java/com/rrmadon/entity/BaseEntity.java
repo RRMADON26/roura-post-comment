@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class BaseEntity extends PanacheMongoEntity {
-	private LocalDate createdAt = LocalDate.now();
-	private LocalDate updatedAt = LocalDate.now();
+	private LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime updatedAt = LocalDateTime.now();
 	private String createdBy = "0";
 	private String updatedBy = "0";
 	private String code = CodeUtil.generate();

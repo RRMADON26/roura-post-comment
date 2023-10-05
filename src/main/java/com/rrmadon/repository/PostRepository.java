@@ -11,8 +11,4 @@ public class PostRepository implements PanacheMongoRepository<Post> {
 	public Optional<Post> findByCode(String code) {
 		return find("code", code).singleResultOptional();
 	}
-
-	public Optional<Post> findByCommentCode(String code) {
-		return find("comments.code" , code).singleResultOptional();
-	}
 }
