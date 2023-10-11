@@ -2,6 +2,7 @@ package com.rrmadon.service;
 
 import com.rrmadon.dto.CommentDTO;
 import com.rrmadon.entity.Comment;
+import com.rrmadon.integration.users.dto.BaseFilter;
 import com.rrmadon.integration.users.service.UserUtil;
 import com.rrmadon.repository.CommentRepository;
 import com.rrmadon.util.CodeUtil;
@@ -60,12 +61,12 @@ public class CommentService extends UserUtil {
 		});
 	}
 
-	public List<Comment> getComment(String postCode) {
-		return commentRepository.findByPostCode(postCode);
+	public List<Comment> getComment(String postCode, BaseFilter baseFilter) {
+		return commentRepository.findByPostCode(postCode, baseFilter);
 	}
 
-	public List<Comment> getChildrenComment(String commentCode) {
-		return commentRepository.findByParent(commentCode);
+	public List<Comment> getChildrenComment(String commentCode, BaseFilter baseFilter) {
+		return commentRepository.findByParent(commentCode, baseFilter);
 	}
 }
 
