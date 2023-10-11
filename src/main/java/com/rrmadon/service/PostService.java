@@ -2,6 +2,7 @@ package com.rrmadon.service;
 
 import com.rrmadon.dto.PostDTO;
 import com.rrmadon.entity.Post;
+import com.rrmadon.integration.users.dto.BaseFilter;
 import com.rrmadon.integration.users.service.UserUtil;
 import com.rrmadon.repository.PostRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -33,8 +34,8 @@ public class PostService extends UserUtil {
 
 	}
 
-	public List<Post> getPosts() {
-		return postRepository.listAll();
+	public List<Post> getPosts(String title, BaseFilter baseFilter) {
+		return postRepository.findByTitle(title, baseFilter);
 	}
 
 	public Optional<Post> findByCode(String code) {

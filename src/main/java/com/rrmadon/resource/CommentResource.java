@@ -3,10 +3,12 @@ package com.rrmadon.resource;
 
 import com.rrmadon.dto.CommentDTO;
 import com.rrmadon.entity.Comment;
+import com.rrmadon.integration.users.dto.BaseFilter;
 import com.rrmadon.service.CommentService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -29,14 +31,15 @@ public class CommentResource {
 
 	@GET
 	@RolesAllowed("CUSTOMER")
-	public List<Comment> getComments(@QueryParam("postCode") String postCode) {
-		return commentService.getComment(postCode);
+	public List<Comment> getComments(@QueryParam("postCode") String postCode, @BeanParam BaseFilter baseFilter) {
+		return commentService.getComment(postCode, baseFilter);
 	}
 
 	@GET
+	@RolesAllowed("CUSTOMER")
 	@Path("/child")
-	public List<Comment> getChildrenComments(@QueryParam("commentCode") String commentCode) {
-		return commentService.getChildrenComment(commentCode);
+	public List<Comment> getChildrenComments(@QueryParam("commentCode") String commentCode, @BeanParam BaseFilter baseFilter) {
+		return commentService.getChildrenComment(commentCode, baseFilter);
 	}
 
 

@@ -1,6 +1,7 @@
 package com.rrmadon.repository;
 
 import com.rrmadon.entity.Comment;
+import com.rrmadon.integration.users.dto.BaseFilter;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -13,11 +14,11 @@ public class CommentRepository implements PanacheMongoRepository<Comment> {
 		return find("code", code).singleResultOptional();
 	}
 
-	public List<Comment> findByPostCode(String postCode) {
-		return find("postCode", postCode).list();
+	public List<Comment> findByPostCode(String postCode, BaseFilter baseFilter) {
+		return find("postCode", postCode).range(baseFilter.getStartIdx(), baseFilter.getEndIdx()).list();
 	}
 
-	public List<Comment> findByParent(String commentCode) {
-		return find("commentCode", commentCode).list();
+	public List<Comment> findByParent(String commentCode, BaseFilter baseFilter) {
+		return find("commentCode", commentCode).range(baseFilter.getStartIdx(), baseFilter.getEndIdx()).list();
 	}
 }
