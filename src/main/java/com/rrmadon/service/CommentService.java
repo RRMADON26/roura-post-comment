@@ -5,7 +5,9 @@ import com.rrmadon.entity.Comment;
 import com.rrmadon.integration.users.dto.BaseFilter;
 import com.rrmadon.integration.users.service.UserUtil;
 import com.rrmadon.repository.CommentRepository;
+import com.rrmadon.repository.PostRepository;
 import com.rrmadon.util.CodeUtil;
+import jakarta.ejb.Asynchronous;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -24,10 +26,13 @@ public class CommentService extends UserUtil {
 	@Inject
 	CommentRepository commentRepository;
 
+	@Inject
+	PostRepository postRepository;
+
 	@Transactional
 	public void addComment(CommentDTO commentDTO) {
 
-		postService.findByCode(commentDTO.getPostCode()).ifPresentOrElse(post -> {
+		postService.getByCode(commentDTO.getPostCode()).ifPresentOrElse(post -> {
 
 			Comment comment = new Comment();
 			if (commentDTO.getCommentCode() != null) {
@@ -56,9 +61,20 @@ public class CommentService extends UserUtil {
 
 				comment.persist();
 			}
+
+			countComment(commentDTO.getPostCode());
+
 		}, () -> {
 			throw new NotFoundException();
 		});
+	}
+
+	@Asynchronous
+	@Transactional
+	public void countComment(String postCode) {
+		long counter = commentRepository.countByPostCode(postCode);
+
+		postService.getByCode(postCode).ifPresent(post -> postRepository.update("comments", counter).where("code", post.getCode()));
 	}
 
 	public List<Comment> getComment(String postCode, BaseFilter baseFilter) {

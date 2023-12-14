@@ -35,10 +35,14 @@ public class PostService extends UserUtil {
 	}
 
 	public List<Post> getPosts(String title, BaseFilter baseFilter) {
+		if (baseFilter.isTrending()) {
+			return postRepository.getTrending();
+		}
+
 		return postRepository.findByTitle(title, baseFilter);
 	}
 
-	public Optional<Post> findByCode(String code) {
+	public Optional<Post> getByCode(String code) {
 		return postRepository.findByCode(code);
 	}
 }

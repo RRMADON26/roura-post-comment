@@ -18,4 +18,7 @@ public class BaseFilter {
 	@QueryParam("endIdx")
 	@DefaultValue("10")
 	private int endIdx;
+
+	@QueryParam("trending")
+	private boolean trending;
 }
