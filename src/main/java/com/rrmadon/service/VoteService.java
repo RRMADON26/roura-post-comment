@@ -31,7 +31,7 @@ public class VoteService {
 
 		log.info(objectMapper.writeValueAsString(rankDTO));
 
-		postService.findByCode(rankDTO.getPostCode()).ifPresentOrElse(post -> {
+		postService.getByCode(rankDTO.getPostCode()).ifPresentOrElse(post -> {
 			if (rankDTO.isVote()) {
 				post.setUpVote(post.getUpVote() + 1);
 
@@ -45,6 +45,8 @@ public class VoteService {
 					post.setUpVote(post.getUpVote() - 1);
 				}
 			}
+
+			post.setPopularity(post.getUpVote() - post.getDownVote());
 
 			post.update();
 

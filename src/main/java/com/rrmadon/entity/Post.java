@@ -9,16 +9,18 @@ import java.util.List;
 
 @Getter
 @Setter
-@MongoEntity(collection = "Posts")
+@MongoEntity(collection = "posts")
 public class Post extends BaseEntity {
 	private String title;
 	private String body;
 	private List<String> tag = new ArrayList<>();
 
-	private List<Comment> comments = new ArrayList<>();
+	private long comments;
 
 	private int upVote;
 
 	private int downVote;
+
+	private int popularity;
 
 }

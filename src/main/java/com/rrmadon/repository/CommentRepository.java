@@ -21,4 +21,8 @@ public class CommentRepository implements PanacheMongoRepository<Comment> {
 	public List<Comment> findByParent(String commentCode, BaseFilter baseFilter) {
 		return find("commentCode", commentCode).range(baseFilter.getStartIdx(), baseFilter.getEndIdx()).list();
 	}
+
+	public long countByPostCode(String postCode){
+		return find("postCode" , postCode).count();
+	}
 }
